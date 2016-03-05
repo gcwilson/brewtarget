@@ -520,28 +520,19 @@ Instruction* Recipe::postboilIns()
 {
    QString str;
    Instruction* ins;
-   double wort_l = 0.0;
-   double wortInBoil_l = 0.0;
 
    Equipment* e = equipment();
    if( e != 0 )
    {
-      wortInBoil_l = wortFromMash_l() - e->lauterDeadspace_l();
-      if ( e->topUpKettle_l() != 0 )
-         wortInBoil_l += e->topUpKettle_l();
-
-      wort_l = e->wortEndOfBoil_l(wortInBoil_l);
       str = tr("You should have %1 wort post-boil.")
-            .arg(Brewtarget::displayAmount( wort_l, "tab_recipe", "batchSize_l", Units::liters));
+            .arg(Brewtarget::displayAmount(postBoilVolume_l(), "tab_recipe", "batchSize_l", Units::liters));
       str += tr("\nYou anticipate losing %1 to trub and chiller loss.")
             .arg(Brewtarget::displayAmount( e->trubChillerLoss_l(),"tab_recipe", "batchSize_l",  Units::liters));
-      wort_l -= e->trubChillerLoss_l();
       if( e->topUpWater_l() > 0.0 )
           str += tr("\nAdd %1 top up water into primary.")
                .arg(Brewtarget::displayAmount( e->topUpWater_l(),"tab_recipe", "batchSize_l",  Units::liters));
-      wort_l += e->topUpWater_l();
       str += tr("\nThe final volume in the primary is %1.")
-             .arg(Brewtarget::displayAmount(wort_l,"tab_recipe", "batchSize_l",  Units::liters));
+             .arg(Brewtarget::displayAmount(finalVolume_l(),"tab_recipe", "batchSize_l",  Units::liters));
 
       ins = Database::instance().newInstruction(this);
       ins->setName(tr("Post boil"));
