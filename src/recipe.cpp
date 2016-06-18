@@ -246,7 +246,7 @@ QVector<PreInstruction> Recipe::mashInstructions(double timeRemaining, double to
                .arg(Brewtarget::displayAmount(mstep->stepTemp_c(), "mashStepTableModel", "stepTemp_c", Units::celsius));
       }
 
-      str += tr(" Hold for %1.").arg(Brewtarget::displayAmount(mstep->stepTime_min(), "mashStepTableModel", "stepTime_min", Units::minutes));
+      str += tr(" Hold for %1.").arg(Brewtarget::displayAmount(mstep->stepTime_min(), "mashStepTableModel", "stepTime_min", Units::minutes, 2));
 
       preins.push_back(PreInstruction(str, QString("%1 - %2").arg(mstep->typeStringTr()).arg(mstep->name()),
                   timeRemaining));
@@ -288,7 +288,7 @@ QVector<PreInstruction> Recipe::hopSteps(Hop::Use type)
 
          str = str.arg(Brewtarget::displayAmount(hop->amount_kg(), "hopTable", "amount_kg", Units::kilograms))
                   .arg(hop->name())
-                  .arg(Brewtarget::displayAmount(hop->time_min(),"hopTable", "time",  Units::minutes));
+                  .arg(Brewtarget::displayAmount(hop->time_min(),"hopTable", "time",  Units::minutes, 2));
 
          preins.push_back(PreInstruction(str, tr("Hop addition"), hop->time_min()));
       }
@@ -330,7 +330,7 @@ QVector<PreInstruction> Recipe::miscSteps(Misc::Use type)
          kindOf = misc->amountIsWeight() ? (Unit*)Units::kilograms : (Unit*)Units::liters;
          str = str .arg(Brewtarget::displayAmount(misc->amount(), "miscTableModel", "amount", kindOf))
                    .arg(misc->name())
-                   .arg(Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes));
+                   .arg(Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes, 2));
 
          preins.push_back(PreInstruction(str, tr("Misc addition"), misc->time()));
       }
@@ -631,7 +631,7 @@ void Recipe::generateInstructions()
                                         Units::minutes);
    }
    
-   str = tr("Bring the wort to a boil and hold for %1.").arg(Brewtarget::displayAmount( timeRemaining, "tab_recipe", "boilTime_min", Units::minutes));
+   str = tr("Bring the wort to a boil and hold for %1.").arg(Brewtarget::displayAmount( timeRemaining, "tab_recipe", "boilTime_min", Units::minutes, 2));
    ins = Database::instance().newInstruction(this);
    ins->setName(tr("Start boil"));
    ins->setInterval(timeRemaining);
@@ -738,7 +738,7 @@ QString Recipe::nextAddToBoil(double& time)
          ret = tr("Add %1 %2 to boil at %3.")
                .arg(Brewtarget::displayAmount(h->amount_kg(), "hopTable", "amount_kg", Units::kilograms))
                .arg(h->name())
-               .arg(Brewtarget::displayAmount(h->time_min(),"hopTable", "time",  Units::minutes));
+               .arg(Brewtarget::displayAmount(h->time_min(),"hopTable", "time",  Units::minutes, 2));
 
          max = h->time_min();
          foundSomething = true;
@@ -761,7 +761,7 @@ QString Recipe::nextAddToBoil(double& time)
             ret = ret.arg(Brewtarget::displayAmount(m->amount(), "miscTableModel", "amount",  Units::liters));
 
          ret = ret.arg(m->name());
-         ret = ret.arg(Brewtarget::displayAmount(m->time(), "miscTableModel", "time", Units::minutes));
+         ret = ret.arg(Brewtarget::displayAmount(m->time(), "miscTableModel", "time", Units::minutes, 2));
          max = m->time();
          foundSomething = true;
       }

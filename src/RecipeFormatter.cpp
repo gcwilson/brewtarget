@@ -409,7 +409,7 @@ QString RecipeFormatter::getToolTip(Equipment* kit)
            .arg(Brewtarget::displayAmount(kit->boilSize_l(), Units::liters) );
    body += QString("<td class=\"left\">%1</td><td class=\"value\">%2</td></tr>")
            .arg(tr("BoilTime"))
-           .arg(Brewtarget::displayAmount(kit->boilTime_min(), Units::minutes) );
+           .arg(Brewtarget::displayAmount(kit->boilTime_min(), Units::minutes, 2) );
 
    body += "</table></body></html>";
 
@@ -733,8 +733,8 @@ QString RecipeFormatter::buildStatTableHtml()
                    "<td class=\"value\">%2</td>")
            .arg(tr("Boil Time"))
            .arg( (rec->equipment() == 0)?
-                   Brewtarget::displayAmount(0, "tab_recipe", "boilTime_min", Units::minutes)
-                 : Brewtarget::displayAmount( (rec->equipment())->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes));
+                   Brewtarget::displayAmount(0, "tab_recipe", "boilTime_min", Units::minutes, 2)
+                 : Brewtarget::displayAmount( (rec->equipment())->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes, 2));
    body += QString("<td align=\"right\" class=\"right\">%1</td>"
                    "<td class=\"value\">%2</td></tr>")
            .arg(tr("Efficiency"))
@@ -799,8 +799,8 @@ QString RecipeFormatter::buildStatTableTxt()
    value.append(QString("%1").arg(Brewtarget::displayAmount(rec->boilVolume_l(), "tab_recipe", "boilVolume_l", Units::liters)));
    entry.append(tr("Boil Time"));
    value.append(QString("%1").arg((rec->equipment() == 0)?
-                         Brewtarget::displayAmount(0, "tab_recipe", "boilTime_min", Units::minutes)
-                       : Brewtarget::displayAmount( (rec->equipment())->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes)));
+                         Brewtarget::displayAmount(0, "tab_recipe", "boilTime_min", Units::minutes, 2)
+                       : Brewtarget::displayAmount( (rec->equipment())->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes, 2)));
    entry.append(tr("Efficiency"));
    value.append(QString("%1%").arg(rec->efficiency_pct(), 0, 'f', 0));
    entry.append(tr("OG"));
@@ -975,7 +975,7 @@ QString RecipeFormatter::buildHopsTableHtml()
             .arg( Brewtarget::displayAmount(hop->alpha_pct(),0,1) )
             .arg( Brewtarget::displayAmount(hop->amount_kg(), "hopTable", "amount_kg", Units::kilograms))
             .arg( hop->useStringTr())
-            .arg( Brewtarget::displayAmount(hop->time_min(), "hopTable", "time_min", Units::minutes))
+            .arg( Brewtarget::displayAmount(hop->time_min(), "hopTable", "time_min", Units::minutes, 2))
             .arg( hop->formStringTr())
             .arg( Brewtarget::displayAmount(rec->ibuFromHop(hop), 0, 1) );
    }
@@ -1013,7 +1013,7 @@ QString RecipeFormatter::buildHopsTableTxt()
          alphas.append(QString("%1%").arg(Brewtarget::displayAmount(hop->alpha_pct(), 0, 1)));
          amounts.append(Brewtarget::displayAmount(hop->amount_kg(), "hopTable", "amount_kg", Units::kilograms));
          uses.append(hop->useStringTr());
-         times.append(Brewtarget::displayAmount(hop->time_min(), "hopTable", "time_min", Units::minutes));
+         times.append(Brewtarget::displayAmount(hop->time_min(), "hopTable", "time_min", Units::minutes, 2));
          forms.append(hop->formStringTr());
          ibus.append(QString("%1").arg( Brewtarget::displayAmount(rec->ibuFromHop(hop), 0, 1)));
       }
@@ -1071,7 +1071,7 @@ QString RecipeFormatter::buildMiscTableHtml()
             .arg( misc->typeStringTr())
             .arg( misc->useStringTr())
             .arg( Brewtarget::displayAmount(misc->amount(), "miscTableModel", "amount_kg", kindOf, 3))
-            .arg( Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes));
+            .arg( Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes, 2));
    }
    mtable += "</table>";
    return mtable;
@@ -1107,7 +1107,7 @@ QString RecipeFormatter::buildMiscTableTxt()
          types.append(misc->typeStringTr());
          uses.append(misc->useStringTr());
          amounts.append(Brewtarget::displayAmount(misc->amount(), "miscTableModel", "amount_kg", kindOf, 3));
-         times.append(Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes));
+         times.append(Brewtarget::displayAmount(misc->time(), "miscTableModel", "time", Units::minutes, 2));
       }
 
       padAllToMaxLength(&names);
@@ -1266,7 +1266,7 @@ QString RecipeFormatter::buildMashTableHtml()
          tmp = tmp.arg( "---" ).arg("---");
 
       tmp = tmp.arg( Brewtarget::displayAmount(ms->stepTemp_c(), "mashStepTableModel", "stepTemp_c", Units::celsius) );
-      tmp = tmp.arg( Brewtarget::displayAmount(ms->stepTime_min(), "mashStepTableModel", "time", Units::minutes, 0) );
+      tmp = tmp.arg( Brewtarget::displayAmount(ms->stepTime_min(), "mashStepTableModel", "time", Units::minutes, 2) );
 
       mtable += tmp + "</tr>";
    }
@@ -1322,7 +1322,7 @@ QString RecipeFormatter::buildMashTableTxt()
             temps.append("---");
          }
          targets.append(Brewtarget::displayAmount(s->stepTemp_c(), "mashStepTableModel", "stepTemp_c", Units::celsius));
-         times.append(Brewtarget::displayAmount(s->stepTime_min(), "mashStepTableModel", "time", Units::minutes, 0));
+         times.append(Brewtarget::displayAmount(s->stepTime_min(), "mashStepTableModel", "time", Units::minutes, 2));
       }
 
       padAllToMaxLength(&names);

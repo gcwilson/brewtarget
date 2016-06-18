@@ -191,7 +191,7 @@ QString BrewDayWidget::buildTitleTable()
 
    body += QString("<tr><td class=\"left\">%1</td><td class=\"value\">%2</td><td class=\"right\">%3</td><td class=\"value\">%4</td></tr>")
            .arg(tr("Boil Time"))
-           .arg(Brewtarget::displayAmount(recObs->boilTime_min(),Units::minutes))
+           .arg(Brewtarget::displayAmount(recObs->boilTime_min(),Units::minutes, 2))
            .arg(tr("IBU"))
            .arg(Brewtarget::displayAmount(recObs->IBU(),0,1));
 
@@ -227,7 +227,7 @@ QString BrewDayWidget::buildInstructionTable()
       QList<QString> reagents;
 
       if(instructions[i]->interval())
-         stepTime = Brewtarget::displayAmount(instructions[i]->interval(), Units::minutes, 0);
+         stepTime = Brewtarget::displayAmount(instructions[i]->interval(), Units::minutes, 2);
       else
          stepTime = "--";
 

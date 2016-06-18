@@ -346,7 +346,7 @@ QString BrewDayScrollWidget::buildTitleTable(bool includeImage)
    // second row:  boil time and efficiency.  
    body += QString("<tr><td class=\"left\">%1</td><td class=\"value\">%2</td><td class=\"right\">%3</td><td class=\"value\">%4</td></tr>")
             .arg(tr("Boil Time"))
-            .arg(Brewtarget::displayAmount(recObs->equipment()->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes))
+            .arg(Brewtarget::displayAmount(recObs->equipment()->boilTime_min(), "tab_recipe", "boilTime_min", Units::minutes, 2))
             .arg(tr("Efficiency"))
             .arg(Brewtarget::displayAmount(recObs->efficiency_pct(),0,0));
 
@@ -407,7 +407,7 @@ QString BrewDayScrollWidget::buildInstructionTable()
       Instruction* ins = instructions[i];
 
       if (ins->interval())
-         stepTime = Brewtarget::displayAmount(ins->interval(), Units::minutes, 0);
+         stepTime = Brewtarget::displayAmount(ins->interval(), Units::minutes, 2);
       else
          stepTime = "--";
 
